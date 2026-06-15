@@ -29,9 +29,6 @@ extensions:
   - module: provisioner_comfyui
     config:
       comfyui_dir: "${WORKSPACE:-/workspace}/ComfyUI"
-      workflows:
-        - "https://raw.githubusercontent.com/Lightricks/ComfyUI-LTXVideo/master/example_workflows/2.3/LTX-2.3_T2V_I2V_Single_Stage_Distilled_Full.json"
-        - "https://raw.githubusercontent.com/Lightricks/ComfyUI-LTXVideo/master/example_workflows/2.3/LTX-2.3_T2V_I2V_Two_Stage_Distilled.json"
 
 post_commands:
   - "/venv/main/bin/python3 ${WORKSPACE:-/workspace}/ComfyUI/custom_nodes/ComfyUI-Manager/cm-cli.py restore-dependencies"
