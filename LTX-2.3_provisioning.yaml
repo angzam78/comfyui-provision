@@ -9,12 +9,13 @@ apt_packages:
   - libgomp1
 
 pip_packages:
-  - opencv-python-headless
-  - PyWavelets
-  - deepdiff
-  - soundfile
-  - imageio-ffmpeg
-  - send2trash
+  packages:
+    - opencv-python-headless
+    - PyWavelets
+    - deepdiff
+    - soundfile
+    - imageio-ffmpeg
+    - send2trash
 
 git_repos:
   - url: "https://github.com/crystian/ComfyUI-Crystools.git"
