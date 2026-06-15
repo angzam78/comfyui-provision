@@ -20,7 +20,8 @@ pip_packages:
     - soundfile
     - imageio-ffmpeg
     - send2trash
-    - "llama-cpp-python @ https://github.com/JamePeng/llama-cpp-python/releases/download/v0.3.40-cu128-linux-20260607/llama_cpp_python-0.3.40+cu128-cp312-cp312-linux_x86_64.whl"
+    - 'kornia>=0.7.3,<0.8.0'
+    - 'llama-cpp-python @ https://github.com/JamePeng/llama-cpp-python/releases/download/v0.3.40-cu128-linux-20260607/llama_cpp_python-0.3.40+cu128-cp312-cp312-linux_x86_64.whl'
 
 git_repos:
   - url: "https://github.com/crystian/ComfyUI-Crystools.git"
