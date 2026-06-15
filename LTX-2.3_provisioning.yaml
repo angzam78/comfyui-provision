@@ -16,7 +16,6 @@ pip_packages:
     - soundfile
     - imageio-ffmpeg
     - send2trash
-    - git
 
 git_repos:
   - url: "https://github.com/crystian/ComfyUI-Crystools.git"
@@ -34,4 +33,4 @@ extensions:
         - "https://raw.githubusercontent.com/Lightricks/ComfyUI-LTXVideo/master/example_workflows/2.3/LTX-2.3_T2V_I2V_Two_Stage_Distilled.json"
 
 post_commands:
-  - "python3 ${WORKSPACE:-/workspace}/ComfyUI/custom_nodes/ComfyUI-Manager/cm-cli.py restore-dependencies"
+  - "/venv/main/bin/python3 ${WORKSPACE:-/workspace}/ComfyUI/custom_nodes/ComfyUI-Manager/cm-cli.py restore-dependencies"
