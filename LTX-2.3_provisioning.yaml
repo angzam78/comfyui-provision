@@ -16,6 +16,7 @@ pip_packages:
     - soundfile
     - imageio-ffmpeg
     - send2trash
+    - git
 
 git_repos:
   - url: "https://github.com/crystian/ComfyUI-Crystools.git"
