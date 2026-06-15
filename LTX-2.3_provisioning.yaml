@@ -35,10 +35,9 @@ git_repos:
 
 post_commands:
   - |
-    mkdir -p /dev/shm/comfyui/{input,output,temp}
-    rm -rf ${WORKSPACE:-/workspace}/ComfyUI/{input,output,temp}
+    mkdir -p /dev/shm/comfyui/{input,output}
+    rm -rf ${WORKSPACE:-/workspace}/ComfyUI/{input,output}
     ln -s /dev/shm/comfyui/input  ${WORKSPACE:-/workspace}/ComfyUI/input
     ln -s /dev/shm/comfyui/output ${WORKSPACE:-/workspace}/ComfyUI/output
-    ln -s /dev/shm/comfyui/temp   ${WORKSPACE:-/workspace}/ComfyUI/temp
     
   - "/venv/main/bin/python3 ${WORKSPACE:-/workspace}/ComfyUI/custom_nodes/ComfyUI-Manager/cm-cli.py restore-dependencies"
