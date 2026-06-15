@@ -24,11 +24,14 @@ pip_packages:
     - 'llama-cpp-python @ https://github.com/JamePeng/llama-cpp-python/releases/download/v0.3.40-cu128-linux-20260607/llama_cpp_python-0.3.40+cu128-cp312-cp312-linux_x86_64.whl'
 
 git_repos:
+  - url: "https://github.com/ltdrdata/ComfyUI-Manager.git"
+    dest: "${WORKSPACE:-/workspace}/ComfyUI/custom_nodes/ComfyUI-Manager"
+
   - url: "https://github.com/crystian/ComfyUI-Crystools.git"
     dest: "${WORKSPACE:-/workspace}/ComfyUI/custom_nodes/ComfyUI-Crystools"
 
-  - url: "https://github.com/ltdrdata/ComfyUI-Manager.git"
-    dest: "${WORKSPACE:-/workspace}/ComfyUI/custom_nodes/ComfyUI-Manager"
+  - url: "https://github.com/slahiri/ComfyUI-Workflow-Models-Downloader.git"
+    dest: "${WORKSPACE:-/workspace}/ComfyUI/custom_nodes/ComfyUI-Workflow-Models-Downloader"
 
 post_commands:
   - |
