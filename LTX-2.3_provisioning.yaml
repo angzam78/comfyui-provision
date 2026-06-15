@@ -1,21 +1,23 @@
 version: 1
 
 apt_packages:
-  - libsndfile1
-  - ffmpeg
-  - libgl1
-  - libglx-mesa0
-  - libglib2.0-0
-  - libgomp1
+  - packages:
+      - libsndfile1
+      - ffmpeg
+      - libgl1
+      - libglx-mesa0
+      - libglib2.0-0
+      - libgomp1
 
 pip_packages:
-  - opencv-python-headless
-  - PyWavelets
-  - deepdiff
-  - soundfile
-  - imageio-ffmpeg
-  - send2trash
-  - "llama-cpp-python @ https://github.com/JamePeng/llama-cpp-python/releases/download/v0.3.40-cu128-linux-20260607/llama_cpp_python-0.3.40+cu128-cp312-cp312-linux_x86_64.whl"
+  - packages:
+      - opencv-python-headless
+      - PyWavelets
+      - deepdiff
+      - soundfile
+      - imageio-ffmpeg
+      - send2trash
+      - "llama-cpp-python @ https://github.com/JamePeng/llama-cpp-python/releases/download/v0.3.40-cu128-linux-20260607/llama_cpp_python-0.3.40+cu128-cp312-cp312-linux_x86_64.whl"
 
 git_repos:
   - url: "https://github.com/crystian/ComfyUI-Crystools.git"
@@ -31,5 +33,6 @@ extensions:
       workflows:
         - "https://raw.githubusercontent.com/Lightricks/ComfyUI-LTXVideo/master/example_workflows/2.3/LTX-2.3_T2V_I2V_Single_Stage_Distilled_Full.json"
         - "https://raw.githubusercontent.com/Lightricks/ComfyUI-LTXVideo/master/example_workflows/2.3/LTX-2.3_T2V_I2V_Two_Stage_Distilled.json"
-post_setup:
+
+post_commands:
   - "python3 ${WORKSPACE:-/workspace}/ComfyUI/custom_nodes/ComfyUI-Manager/cm-cli.py restore-dependencies"
