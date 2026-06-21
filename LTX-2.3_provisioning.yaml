@@ -33,8 +33,8 @@ git_repos:
   - url: "https://github.com/slahiri/ComfyUI-Workflow-Models-Downloader.git"
     dest: "${WORKSPACE:-/workspace}/ComfyUI/custom_nodes/ComfyUI-Workflow-Models-Downloader"
 
-   - url: "https://github.com/angzam78/ComfyUI-Model-Location-Editor.git"
-     dest: "${WORKSPACE:-/workspace}/ComfyUI/custom_nodes/ComfyUI-Model-Location-Editor"
+  - url: "https://github.com/angzam78/ComfyUI-Model-Location-Editor.git"
+    dest: "${WORKSPACE:-/workspace}/ComfyUI/custom_nodes/ComfyUI-Model-Location-Editor"
 
 post_commands:
   - |
