@@ -34,11 +34,11 @@ git_repos:
     dest: "${WORKSPACE:-/workspace}/ComfyUI/custom_nodes/ComfyUI-Model-Location-Editor"
 
 write_files:
-  - path: /etc/supervisor/conf.d/comfyui-args.conf
+  - path: /etc/supervisor/conf.d/comfyui-env.conf
     permissions: "0644"
     content: |
       [program:comfyui]
-      environment=COMFYUI_ARGS="--disable-auto-launch --port 18188 --enable-cors-header --temp-dir ${WORKSPACE:-/workspace}/ComfyUI/temp"
+      environment=PROC_NAME="comfyui",COMFYUI_ARGS="--disable-auto-launch --port 18188 --enable-cors-header --temp-dir ${WORKSPACE:-/workspace}/ComfyUI/temp"
 
 post_commands:
   # Create ephemeral directories in shared memory
