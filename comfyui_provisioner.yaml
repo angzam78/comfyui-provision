@@ -1,0 +1,52 @@
+version: 1
+
+extensions:
+  - module: provisioner_comfyui
+    config:
+      comfyui_dir: "${WORKSPACE:-/workspace}/ComfyUI"
+
+apt_packages:
+  - libsndfile1
+  - ffmpeg
+  - libgl1
+  - libglx-mesa0
+  - libglib2.0-0
+  - libgomp1
+
+pip_packages:
+  packages:
+    - soundfile
+    - imageio-ffmpeg
+    - 'kornia>=0.7.3,<0.8.0'
+
+git_repos:
+  - url: "https://github.com/ltdrdata/ComfyUI-Manager.git"
+    dest: "${WORKSPACE:-/workspace}/ComfyUI/custom_nodes/ComfyUI-Manager"
+
+  - url: "https://github.com/crystian/ComfyUI-Crystools.git"
+    dest: "${WORKSPACE:-/workspace}/ComfyUI/custom_nodes/ComfyUI-Crystools"
+
+  - url: "https://github.com/slahiri/ComfyUI-Workflow-Models-Downloader.git"
+    dest: "${WORKSPACE:-/workspace}/ComfyUI/custom_nodes/ComfyUI-Workflow-Models-Downloader"
+
+  - url: "https://github.com/angzam78/ComfyUI-Model-Location-Editor.git"
+    dest: "${WORKSPACE:-/workspace}/ComfyUI/custom_nodes/ComfyUI-Model-Location-Editor"
+
+post_commands:  
+  - "/venv/main/bin/python3 ${WORKSPACE:-/workspace}/ComfyUI/custom_nodes/ComfyUI-Manager/cm-cli.py restore-dependencies"
+
+  - |
+    # Create ephemeral directories in shared memory
+    mkdir -p /dev/shm/comfyui/{input,output,temp,workflows}
+    
+    # Remove existing local directories to avoid path conflicts
+    rm -rf ${WORKSPACE:-/workspace}/ComfyUI/{input,output,temp,user/default/workflows}
+    
+    # Create necessary nested directory structure for user workflows
+    # mkdir -p ${WORKSPACE:-/workspace}/ComfyUI/user/default
+    
+    # Symlink to /dev/shm
+    ln -s /dev/shm/comfyui/input     ${WORKSPACE:-/workspace}/ComfyUI/input
+    ln -s /dev/shm/comfyui/output    ${WORKSPACE:-/workspace}/ComfyUI/output
+    ln -s /dev/shm/comfyui/temp      ${WORKSPACE:-/workspace}/ComfyUI/temp
+    ln -s /dev/shm/comfyui/workflows ${WORKSPACE:-/workspace}/ComfyUI/user/default/workflows
