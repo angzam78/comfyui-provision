@@ -34,7 +34,7 @@ git_repos:
     dest: "${WORKSPACE:-/workspace}/ComfyUI/custom_nodes/ComfyUI-Model-Location-Editor"
 
 write_files:
-  - path: /etc/supervisor/conf.d/comfyui-env.conf
+  - path: /etc/supervisor/conf.d/20-comfyui-env.conf
     permissions: "0644"
     content: |
       [program:comfyui]
