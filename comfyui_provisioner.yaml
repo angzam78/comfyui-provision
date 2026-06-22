@@ -33,19 +33,30 @@ git_repos:
   - url: "https://github.com/angzam78/ComfyUI-Model-Location-Editor.git"
     dest: "${WORKSPACE:-/workspace}/ComfyUI/custom_nodes/ComfyUI-Model-Location-Editor"
 
-post_commands:  
-  - "/venv/main/bin/python3 ${WORKSPACE:-/workspace}/ComfyUI/custom_nodes/ComfyUI-Manager/cm-cli.py restore-dependencies"
+write_files:
+  - path: /etc/supervisor/conf.d/comfyui-args.conf
+    permissions: "0644"
+    content: |
+      [program:comfyui]
+      environment=COMFYUI_ARGS="--disable-auto-launch --port 18188 --enable-cors-header --temp-dir ${WORKSPACE:-/workspace}/ComfyUI/temp"
 
+post_commands:
+  # Create ephemeral directories in shared memory
   - |
-    # Create ephemeral directories in shared memory
     mkdir -p /dev/shm/comfyui/{input,output,temp,workflows}
-    
+
     # Remove existing local directories to avoid path conflicts
     rm -rf ${WORKSPACE:-/workspace}/ComfyUI/{input,output,temp,user/default/workflows}
-       
+
     # Symlink to /dev/shm
     ln -s /dev/shm/comfyui/input     ${WORKSPACE:-/workspace}/ComfyUI/input
     ln -s /dev/shm/comfyui/output    ${WORKSPACE:-/workspace}/ComfyUI/output
     ln -s /dev/shm/comfyui/workflows ${WORKSPACE:-/workspace}/ComfyUI/user/default/workflows
 
-    # ln -s /dev/shm/comfyui/temp      ${WORKSPACE:-/workspace}/ComfyUI/temp # <- comfyui init does not work 
+  # Restore ComfyUI-Manager dependencies
+  - "/venv/main/bin/python3 ${WORKSPACE:-/workspace}/ComfyUI/custom_nodes/ComfyUI-Manager/cm-cli.py restore-dependencies"
+
+  # Reload supervisord so it sees the new COMFYUI_ARGS
+  - supervisorctl reread
+  - supervisorctl update
+  - supervisorctl restart comfyui
