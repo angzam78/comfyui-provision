@@ -33,10 +33,11 @@ git_repos:
   - url: "https://github.com/angzam78/ComfyUI-Model-Location-Editor.git"
     dest: "${WORKSPACE:-/workspace}/ComfyUI/custom_nodes/ComfyUI-Model-Location-Editor"
 
-downloads: [] # Do not download any models during provisioning
-
 post_commands:
   - |
+    # Do not download any models during provisioning
+    unset PROVISIONING_COMFYUI_WORKFLOWS
+  
     # Create ephemeral directories in shared memory
     base="${WORKSPACE:-/workspace}/ComfyUI"
     
