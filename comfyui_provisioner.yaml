@@ -54,4 +54,4 @@ post_commands:
     ln -s /dev/shm/comfyui/workflows ${WORKSPACE:-/workspace}/ComfyUI/user/default/workflows
 
     # Restore ComfyUI-Manager dependencies
-    - "/venv/main/bin/python3 ${WORKSPACE:-/workspace}/ComfyUI/custom_nodes/ComfyUI-Manager/cm-cli.py restore-dependencies"
+    /venv/main/bin/python3 ${WORKSPACE:-/workspace}/ComfyUI/custom_nodes/ComfyUI-Manager/cm-cli.py restore-dependencies
