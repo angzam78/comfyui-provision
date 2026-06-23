@@ -8,10 +8,10 @@ extensions:
 apt_packages:
   - libsndfile1
   - ffmpeg
-  - libgl1
-  - libglx-mesa0
-  - libglib2.0-0
-  - libgomp1
+  # - libgl1
+  # - libglx-mesa0
+  # - libglib2.0-0
+  # - libgomp1
 
 pip_packages:
   packages:
@@ -33,25 +33,22 @@ git_repos:
   - url: "https://github.com/angzam78/ComfyUI-Model-Location-Editor.git"
     dest: "${WORKSPACE:-/workspace}/ComfyUI/custom_nodes/ComfyUI-Model-Location-Editor"
 
+downloads: [] # Do not download any models during provisioning
+
 post_commands:
   - |
     # Create ephemeral directories in shared memory
-    mkdir -p /dev/shm/comfyui/input
-    mkdir -p /dev/shm/comfyui/output
-    mkdir -p /dev/shm/comfyui/temp
+    base="${WORKSPACE:-/workspace}/ComfyUI"
+    
+    for d in input output temp; do
+      mkdir -p "/dev/shm/comfyui/$d"
+      rm -rf "$base/$d"
+      ln -s "/dev/shm/comfyui/$d" "$base/$d"
+    done
+    
     mkdir -p /dev/shm/comfyui/workflows
-
-    # Remove existing local directories to avoid path conflicts
-    rm -rf ${WORKSPACE:-/workspace}/ComfyUI/input
-    rm -rf ${WORKSPACE:-/workspace}/ComfyUI/output
-    rm -rf ${WORKSPACE:-/workspace}/ComfyUI/temp
-    rm -rf ${WORKSPACE:-/workspace}/ComfyUI/user/default/workflows
-
-    # Symlink to /dev/shm
-    ln -s /dev/shm/comfyui/input     ${WORKSPACE:-/workspace}/ComfyUI/input
-    ln -s /dev/shm/comfyui/output    ${WORKSPACE:-/workspace}/ComfyUI/output
-    ln -s /dev/shm/comfyui/temp      ${WORKSPACE:-/workspace}/ComfyUI/temp
-    ln -s /dev/shm/comfyui/workflows ${WORKSPACE:-/workspace}/ComfyUI/user/default/workflows
+    rm -rf "$base/user/default/workflows"
+    ln -s /dev/shm/comfyui/workflows "$base/user/default/workflows"
 
     # Restore ComfyUI-Manager dependencies
     /venv/main/bin/python3 ${WORKSPACE:-/workspace}/ComfyUI/custom_nodes/ComfyUI-Manager/cm-cli.py restore-dependencies
