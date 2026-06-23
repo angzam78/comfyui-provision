@@ -17,8 +17,8 @@ pip_packages:
   packages:
     - soundfile
     - imageio-ffmpeg
-    - nvidia-ml-py
-    - 'kornia>=0.7.3,<0.8.0'
+    # - nvidia-ml-py
+    # - 'kornia>=0.7.3,<0.8.0'
 
 git_repos:
   - url: "https://github.com/ltdrdata/ComfyUI-Manager.git"
@@ -34,17 +34,24 @@ git_repos:
     dest: "${WORKSPACE:-/workspace}/ComfyUI/custom_nodes/ComfyUI-Model-Location-Editor"
 
 post_commands:
-  # Create ephemeral directories in shared memory
   - |
-    mkdir -p /dev/shm/comfyui/{input,output,temp,workflows}
+    # Create ephemeral directories in shared memory
+    mkdir -p /dev/shm/comfyui/input
+    mkdir -p /dev/shm/comfyui/output
+    mkdir -p /dev/shm/comfyui/temp
+    mkdir -p /dev/shm/comfyui/workflows
 
     # Remove existing local directories to avoid path conflicts
-    rm -rf ${WORKSPACE:-/workspace}/ComfyUI/{input,output,temp,user/default/workflows}
+    rm -rf ${WORKSPACE:-/workspace}/ComfyUI/input
+    rm -rf ${WORKSPACE:-/workspace}/ComfyUI/output
+    rm -rf ${WORKSPACE:-/workspace}/ComfyUI/temp
+    rm -rf ${WORKSPACE:-/workspace}/ComfyUI/user/default/workflows
 
     # Symlink to /dev/shm
     ln -s /dev/shm/comfyui/input     ${WORKSPACE:-/workspace}/ComfyUI/input
     ln -s /dev/shm/comfyui/output    ${WORKSPACE:-/workspace}/ComfyUI/output
+    ln -s /dev/shm/comfyui/temp      ${WORKSPACE:-/workspace}/ComfyUI/temp
     ln -s /dev/shm/comfyui/workflows ${WORKSPACE:-/workspace}/ComfyUI/user/default/workflows
 
-  # Restore ComfyUI-Manager dependencies
-  - "/venv/main/bin/python3 ${WORKSPACE:-/workspace}/ComfyUI/custom_nodes/ComfyUI-Manager/cm-cli.py restore-dependencies"
+    # Restore ComfyUI-Manager dependencies
+    - "/venv/main/bin/python3 ${WORKSPACE:-/workspace}/ComfyUI/custom_nodes/ComfyUI-Manager/cm-cli.py restore-dependencies"
