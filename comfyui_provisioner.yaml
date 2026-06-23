@@ -35,9 +35,6 @@ git_repos:
 
 post_commands:
   - |
-    # Do not download any models during provisioning
-    unset PROVISIONING_COMFYUI_WORKFLOWS
-  
     # Create ephemeral directories in shared memory
     base="${WORKSPACE:-/workspace}/ComfyUI"
     
