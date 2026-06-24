@@ -35,18 +35,40 @@ git_repos:
 
 post_commands:
   - |
-    # Create ephemeral directories in shared memory
     base="${WORKSPACE:-/workspace}/ComfyUI"
-    
+
+    # Core work dirs
     for d in input output temp; do
       mkdir -p "/dev/shm/comfyui/$d"
       rm -rf "$base/$d"
       ln -s "/dev/shm/comfyui/$d" "$base/$d"
     done
-    
+
+    # Workflows (copy contents before symlink)
     mkdir -p /dev/shm/comfyui/workflows
+    if [ -d "$base/user/default/workflows" ]; then
+      cp -a "$base/user/default/workflows/." /dev/shm/comfyui/workflows/
+    fi
     rm -rf "$base/user/default/workflows"
     ln -s /dev/shm/comfyui/workflows "$base/user/default/workflows"
+
+    # Cache dirs
+    for d in cache user/default/cache; do
+      mkdir -p "/dev/shm/comfyui/$d"
+      rm -rf "$base/$d"
+      mkdir -p "$(dirname "$base/$d")"
+      ln -s "/dev/shm/comfyui/$d" "$base/$d"
+    done
+
+    # Custom node caches
+    for n in "$base"/custom_nodes/*; do
+      if [ -d "$n/cache" ]; then
+        ram="/dev/shm/comfyui/custom_nodes/$(basename "$n")/cache"
+        mkdir -p "$ram"
+        rm -rf "$n/cache"
+        ln -s "$ram" "$n/cache"
+      fi
+    done
 
     # Restore ComfyUI-Manager dependencies
     /venv/main/bin/python3 ${WORKSPACE:-/workspace}/ComfyUI/custom_nodes/ComfyUI-Manager/cm-cli.py restore-dependencies
